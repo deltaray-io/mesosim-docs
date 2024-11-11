@@ -374,19 +374,19 @@ Each leg has its unique `Name`, associated expiration (ExpirationName), option t
 ]
 ```
 
-- `Name`: <br/>The unique name of the leg. Later, this name will be used when adjustments are made to the structure. Additionally, it makes job inspection and debugging easier.
-- `Qty`: <br/>Defines the number of contracts to be traded. If negative, a short position is taken. <br/>Crypto note: In case of Equity Index Options whole numbers are allowed, while in case of Crypto Options fractional shares (such as 0.2) can be specified.
-- `ExpirationName`: <br/>Reference back to the expiration defined in the Expirations section.
-- `OptionType`: <br/>Defines the option type to be traded. Either Put or Call.
-- `StrikeSelector`: <br/>Defines how strikes should be selected for the given leg. Currently, strikes can be selected based on type, greeks, IV, or using Statement selector. Given that we must end up selecting exactly one strike for a leg, this section must define exactly one selector.
-- `Min` / `Max`: <br/>The Min and Max are optional fields used to create a subset of the available strikes based on the StrikeSelector chosen.They always refer to the rest of the parameters of the given StrikeSelector (Prices, greeks, or IV). As Min and Max are both optional, they can be turned off by setting them to `null`.
-- `BidPrice` / `AskPrice` / `MidPrice`: <br/>Select the strike based on the associated price for the option. As the name implies, BidPrice searches for contracts where the Bid quote is closest to the specified value, while AskPrice applies the same logic to the Ask side of the quote. MidPrice is taking the mid-point between Bid and Ask. This field is helpful for hedging scenarios where one would like to specify that x% of the generated income is used for hedging.You can only use one of these variables (or one of the greek/IV options) at the same time and can combine it with the Min and Max fields if needed.For example, using SPX, use 33% of the expected premium to buy 1 long put: `BidPrice=(initial_theta * 60 * 0.33) / 100`
-- `Delta` / `Gamma` / `Theta` / `Vega` / `WVega` / `Rho` / `IV`: <br/>Select strikes closest to the specified greek or IV. The most commonly used field here would be Delta, as option structures are frequently specified using this greek. As the selector is a statement, it is possible to do dynamic hedging based on the rest of the structure.You can use only one of these variables (or one of the price options) simultaneously and combine it with the Min and Max fields if needed.The WVega selector is Weighted (or Modified) Vega as described in Nassim Taleb’s Dynamic Hedging book: a “simplified one-factor model using the variance of the volatilities broken up by maturities.” It is calculated using the following formula: `sqrt(30/dte)`.
-- `Statement`: <br/>Select strikes by executing the statement. The use-case for this selector is to choose legs certain points away from another leg. For example, choosing the strike 25 points away from the short_put leg can be achieved by the following statement: 
+- **Name**: <br/>The unique name of the leg. Later, this name will be used when adjustments are made to the structure. Additionally, it makes job inspection and debugging easier.
+- **Qty**: <br/>Defines the number of contracts to be traded. If negative, a short position is taken. <br/>Crypto note: In case of Equity Index Options whole numbers are allowed, while in case of Crypto Options fractional shares (such as 0.2) can be specified.
+- **ExpirationName**: <br/>Reference back to the expiration defined in the Expirations section.
+- **OptionType**: <br/>Defines the option type to be traded. Either Put or Call.
+- **StrikeSelector**: <br/>Defines how strikes should be selected for the given leg. Currently, strikes can be selected based on type, greeks, IV, or using Statement selector. Given that we must end up selecting exactly one strike for a leg, this section must define exactly one selector.
+- **Min / Max**: <br/>The Min and Max are optional fields used to create a subset of the available strikes based on the StrikeSelector chosen.They always refer to the rest of the parameters of the given StrikeSelector (Prices, greeks, or IV). As Min and Max are both optional, they can be turned off by setting them to `null`.
+- **BidPrice / AskPrice / MidPrice**: <br/>Select the strike based on the associated price for the option. As the name implies, BidPrice searches for contracts where the Bid quote is closest to the specified value, while AskPrice applies the same logic to the Ask side of the quote. MidPrice is taking the mid-point between Bid and Ask. This field is helpful for hedging scenarios where one would like to specify that x% of the generated income is used for hedging.You can only use one of these variables (or one of the greek/IV options) at the same time and can combine it with the Min and Max fields if needed.For example, using SPX, use 33% of the expected premium to buy 1 long put: `BidPrice=(initial_theta * 60 * 0.33) / 100`
+- **Delta / Gamma / Theta / Vega / WVega / Rho / IV**: <br/>Select strikes closest to the specified greek or IV. The most commonly used field here would be Delta, as option structures are frequently specified using this greek. As the selector is a statement, it is possible to do dynamic hedging based on the rest of the structure.You can use only one of these variables (or one of the price options) simultaneously and combine it with the Min and Max fields if needed.The WVega selector is Weighted (or Modified) Vega as described in Nassim Taleb’s Dynamic Hedging book: a “simplified one-factor model using the variance of the volatilities broken up by maturities.” It is calculated using the following formula: `sqrt(30/dte)`.
+- **Statement**: <br/>Select strikes by executing the statement. The use-case for this selector is to choose legs certain points away from another leg. For example, choosing the strike 25 points away from the short_put leg can be achieved by the following statement: 
    ```json
    "Statement": "leg_short_put_strike + 25"
    ```
-- `Complex`: <br/>The complex strike selector iterates through all the contracts within the given expiration and chooses the strike that best aligns with the specified criteria. 
+- **Complex**: <br/>The complex strike selector iterates through all the contracts within the given expiration and chooses the strike that best aligns with the specified criteria. 
   ```json
   "Complex": {
       "Statement": "leg_long_strike",
@@ -450,7 +450,7 @@ Valid values for this field:
 In case of Equity Index Options only workdays are allowed, while in case of Crypto Instrument Saturday and Sunday is also available.
 :::
 
-Examples:
+<b>Examples:</b>
 1. Try to enter every day, 30 minutes before close:
     ```json
     "Schedule": {
@@ -587,6 +587,7 @@ Therefore, when calculating expected profit based on theta, the pos_theta should
 ```json
   "ProfitTarget": "pos_theta/underlying_price * 160 * 0.5"
 ```
+:::
 
 #### Stop loss
 
@@ -594,7 +595,7 @@ When the loss of our overall structure reaches the value defined by the stop los
 It is a common practice to set the StopLoss to a multiplier of the Profit Target:
 
 ```json
- "StopLoss": "pos_theta * 160 * 0.5 * 3" 
+  "StopLoss": "pos_theta * 160 * 0.5 * 3" 
 ```
 
 #### Conditions
@@ -616,12 +617,20 @@ This could be achieved by defining a variable at entry, then using that variable
   }
 ```
 
-#### Adjustment
+### Adjustment
 
 With the optional `Adjustment` section, keeping an open position balanced based on the criteria defined via the `ConditionalAdjustments` field is possible. 
-Similar to the [Entry] and [Exit] sections, a Schedule must also be provided for the Adjustment. Please refer to the Entry and Exit sections’ Schedule for further details on specifying this field.The MaxAdjustmentCount field controls what the maximum allowed adjustment count is. Every adjustment increases a counter. If the counter reaches the value specified in the MaxAdjustmentCount field, the following adjustment will result in position liquidation.The following snippet contains two conditional adjustments. Please note that not all the fields of the StrikeSelector are shown. For a complete reference on StrikeSelector, please refer to the Structure part of this reference.
+Similar to the [Entry](#entry) and [Exit](#exit) sections, a Schedule must also be provided for the Adjustment. 
+Please refer to the [Entry](#entry) and [Exit](#exit) sections’ Schedule for further details on specifying this field.
 
-# ITTJARTAM
+The `MaxAdjustmentCount` field controls what the maximum allowed adjustment count is. 
+Every adjustment increases a counter. If the counter reaches the value specified in the MaxAdjustmentCount field, 
+the following adjustment will result in position liquidation.
+
+The following snippet contains two conditional adjustments. 
+Please note that not all the fields of the StrikeSelector are shown. 
+For a complete reference on StrikeSelector, please refer to the [Structure](#Structure) part of this reference.
+
 ```json
 "Adjustment": {
  "Schedule": {
@@ -651,17 +660,57 @@ Similar to the [Entry] and [Exit] sections, a Schedule must also be provided for
   },
 ```
 
-In the above example, we create two Conditional Adjustments.The ConditionalAdjustments section is a JSON Map (aka. dictionary), which maps keys (such as the "pos_delta < -5" statement) to values (such as MoveLegAdjustment structure).In MesoSim, the keys of this map are statements executed by the script engine. The statements must evaluate to bool (true or false) to signal the simulator if the adjustment should be activated or not. In the above example, we have two entries (key-value pairs) in the map:   - When the structure delta moves beyond 5, we move the short_call leg.   - When the structure delta moves below -5, we move the short_put leg.The Conditional Statements in Conditional Adjustments are alphabetically ordered and evaluated before execution. This behavior enables moving (or removing) multiple legs in a predictable manner. The [SPX-MultiLegAdjustment] template shows how to leverage Lua Comments to predictably move multiple legs in the user-defined order.
+In the above example, we create two Conditional Adjustments.
+
+The ConditionalAdjustments section is a JSON Map (aka. dictionary), which maps keys 
+(such as the `pos_delta < -5` statement) to values (such as MoveLegAdjustment structure).
+
+In MesoSim, the keys of this map are statements executed by the [ScriptEngine](/docs/about-the-simulator/scriptengine.md). 
+The statements must evaluate to bool (true or false) to signal the simulator if the adjustment should be activated or not. 
+In the above example, we have two entries (key-value pairs) in the map:
+- When the structure delta moves beyond 5, we move the short_call leg.
+- When the structure delta moves below -5, we move the short_put leg.
+
+The Conditional Statements in Conditional Adjustments are alphabetically ordered and evaluated before execution. 
+This behavior enables moving (or removing) multiple legs in a predictable manner. 
+The `[SPX-MultiLegAdjustment]` built-in template shows how to leverage Lua Comments to predictably move multiple legs 
+in the user-defined order.
 
 
 #### MoveLegAdjustment
 
-During the process of leg adjustment, we look for a new strike for the given leg (specified by LegName) to bring the whole structure back to 0 delta. In the case of the first adjustment, this is achieved by evaluating the statement: "pos_delta - log_short_put_delta", where pos_delta is the whole structure’s actual delta and log_short_put_delta is the put leg’s current delta.How does this bring the structure back to 0 delta? It’s easiest to see via a small example:Consider that leg_short_put_delta=4 and leg_short_call_delta=2Then the overall pos_delta=4+2=6.If we consider that we will be liquidating our short_put leg and opening a new position, then the new position’s target delta must equal:pos_delta-leg_short_put_delta = 6 - 4 = 2.Which is precisely the delta of the short call.Why bother creating a formula if we could have just written leg_short_call_delta?Well, this is a pedagogical example that shows how to calculate it dynamically. The method outlined here works even if multiple legs are considered (for instance, in the case of an Iron Condor strategy).
+During the process of leg adjustment, we look for a new strike for the given leg (specified by LegName) to bring the 
+whole structure back to 0 delta. In the case of the first adjustment, this is achieved by evaluating the statement: 
+```lua
+  pos_delta - leg_short_put_delta
+```
+where `pos_delta` is the whole structure’s actual delta and `log_short_put_delta` is the put leg’s current delta.
+
+How does this bring the structure back to 0 delta? 
+It’s easiest to see via a small example:
+
+Consider that `leg_short_put_delta=4` and `leg_short_call_delta=2`
+
+Then the overall `pos_delta=4+2=6`.
+
+If we consider that we will be liquidating our short_put leg and opening a new position, 
+then the new position’s target delta must equal:
+```lua
+pos_delta-leg_short_put_delta = 6 - 4 = 2
+```
+
+Which is precisely the delta of the short call.
+Why bother creating a formula if we could have just written leg_short_call_delta?
+
+Well, this is a pedagogical example that shows how to calculate it dynamically. 
+The method outlined here works even if multiple legs are considered (for instance, in the case of an Iron Condor strategy).
 
 
 Move Leg Adjustment enables the user to move the leg vertically (by moving the strikes), horizontally (by moving the expiration), or both.
 
-The mandatory StrikeSelector is used to specify the new strike, while the optional Expirations and ExpirationName can move the leg in time. For example:
+The mandatory StrikeSelector is used to specify the new strike, while the optional Expirations and ExpirationName can move the leg in time. 
+
+For example:
 
 ```json
     "ConditionalAdjustments": {
@@ -703,11 +752,14 @@ The RemoveLeg Adjustment simply exits the specified leg once the condition is me
 
 If the leg to be closed happens to be the last leg of the position, then, at leg close the whole position will be closed, and a new position will be considered.
 
-RemoveLegAdjustment can be combined with MoveLegAdjustment. If the two are coupled together, then first, the RemoveLeg action will be taken, then the MoveLeg will be executed. This setup enables balancing the structure after the leg is removed.
+RemoveLegAdjustment can be combined with MoveLegAdjustment. If the two are coupled together, then first, the RemoveLeg action will be taken, then the MoveLeg will be executed. 
+This setup enables balancing the structure after the leg is removed.
 
 #### AddLegsAdjustment
 
-AddLegsAdjustment enables the user to add one or multiple legs. Add Legs Adjustment contains a set of Legs and optional Expirations and  AbortConditions fields, so that it's functionality is matching the Position Entry.
+AddLegsAdjustment enables the user to add one or multiple legs. 
+Add Legs Adjustment contains a set of Legs and optional `Expirations` and `AbortConditions` fields, 
+so that it's functionality is matching the Position Entry.
 
 ```json
         "AddLegsAdjustment": {
@@ -739,13 +791,17 @@ AddLegsAdjustment enables the user to add one or multiple legs. Add Legs Adjustm
 
 All the AddLegAdjustment fields are matching the previously introduced described top level fields:
 
-- Legs: matches Structure.Legs
-- Expirations: matches Structure.Expirations
-- AbortConditions: matches Entry.AbortConditions
+- <b>Legs</b>: matches [Structure.Legs](#structure)
+- <b>Expirations</b>: matches [Structure.Expirations](#structure)
+- <b>AbortConditions</b>: matches [Entry.AbortConditions](#entry)
 
-Being able to add and remove legs during execution enables the user to create complex algorithms where the system have all the means to react to changing account or position condition.Using this feature, one can add a Put Debit Spread, Put Credit Spread, or even a Calendar when necessary.
+Being able to add and remove legs during execution enables the user to create complex algorithms where the system have 
+all the means to react to changing account or position condition.
 
-Add Legs Adjustment can be combined with MoveLegsAdjustment and RemoveLegAdjustment. In case when all the adjustments are included to a ConditionalAdjustment then the execution order will be as follows:
+Using this feature, one can add a Put Debit Spread, Put Credit Spread, or even a Calendar when necessary.
+
+Add Legs Adjustment can be combined with MoveLegsAdjustment and RemoveLegAdjustment. 
+In case when all the adjustments are included to a ConditionalAdjustment then the execution order will be as follows:
 
 - Remove Leg Adjustment
 - Move Leg Adjustment
@@ -756,7 +812,7 @@ The following built-in templates demonstrate the Add Legs Adjustment functionali
 - SPX-AddLegAdjustment
 - SPX-AddPDSAdjustment
 
-#### Indicators
+### Indicators
 
 In the Indicators section, the user can define technical analysis indicators (such as the Exponential Moving Average) to be used during simulation. The indicators are calculated for the given Instrument using the provided timing parameters. Currently, the only supported Instrument is the underlying index’s price.The specified indicators are represented as standard variables in the ScriptEngine. Therefore they can be used in every place where a Statement is evaluated. For example
 
