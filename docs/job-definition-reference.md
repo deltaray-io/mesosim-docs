@@ -529,7 +529,7 @@ It is evaluated after all the Legs are determined, therefore all the leg and pos
 
 This field can be used to scale the structure based on the NAV, dynamically. 
 
-For more details please see the [Set Quantity Dynamically](/faq/set-quantity-dynamically.md) FAQ entry.
+For more details please see the [Set Quantity Dynamically](/faq/set-qty-dynamically.md) FAQ entry.
 
 #### Concurrency
 
