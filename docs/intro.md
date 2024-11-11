@@ -2,46 +2,59 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Introduction
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## Overview
 
-## Getting Started
+<b>Welcome to MesoSim</b>, the advanced option strategy backtesting service.
+MesoSim was created to test option strategies using a low-code approach.
 
-Get started by **creating a new site**.
+<center>
+<iframe width="100%" style={{"aspect-ratio": "16 / 9"}} src="https://www.youtube.com/embed/W8lPRKjq-Dk"/>
+</center>
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+<hr/>
 
-### What you'll need
+## Features
+- Backtest multi-leg Option Strategies in Index and Crypto Options
+- Live Trading of Strategies via [MesoLive](https://docs.mesolive.io)
+- Define legs using Greeks, IV, Prices, or custom statements
+- Define entry, exit, and adjustment logic via algorithmically defined conditions
+- Test strategies by leveraging 5 minutes resolution options data on SPX (from 2005), RUT (from 2012), BTCUSD and ETHUSD (from 2019)
+- Accurate execution modeling backed by two order fill models and slippage definition 
+- Strategy performance analytics using risk metrics and visualization of NAVs and Greeks
+- Export runs to OptionNet Explorer for further modeling and analysis
+- Multiple positions in flight, aka Campaign mode
+- Indicator support
+- Historical and Implied Volatility, IV Rank & Pct of the underlying
+- Full Tearsheet as defined in QuantStats library
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
 
-## Generate a new site
+:::tip[Goal]
 
-Generate a new Docusaurus site using the **classic template**.
+ The simulator was developed with a strong emphasis on performance so that users can perform 
+ Strategy Research quickly and conveniently. 
+ 
+:::
 
-The classic template will automatically be added to your project after you run the command:
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+## Motivation
+Our journey started when we tried to use state-of-the-art backtesting tools to model income options strategies. 
+Most Open Source solutions take execution modeling to an extreme, which results in prolonged execution. 
+Besides the performance challenges, these tools were rarely created with option trading as a key focus area; 
+hence they are very difficult to use in option trading scenarios.
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+Leaving Open Source behind, we turned to commercial solutions. 
+Some offerings helped model simple strategies, but none provided enough flexibility to simulate *theta harvesting* 
+strategies appropriately. Last, we settled with the well-respected and widely used OptionNetExplorer, which, 
+however (at the time of the writing), provides no automated simulation capabilities. 
+We must point out that manual backtesting via OptionNetExplorer helped us tremendously to gain a better understanding 
+of the strategies.
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+It became apparent that it’s possible to create a domain-specific language (DSL) to describe and automatically execute 
+Option Trading strategies.
 
-## Start your site
+Leveraging extensive prior experience in backtesting solutions 
+(we are PyAlgoTrade contributors, Zipline-Live authors, and QuantConnect/Lean users), 
+we created MesoSim as an advanced automated backtester that provides unparalleled flexibility in Options Trading space.
 
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
