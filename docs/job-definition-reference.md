@@ -762,31 +762,31 @@ Add Legs Adjustment contains a set of Legs and optional `Expirations` and `Abort
 so that it's functionality is matching the Position Entry.
 
 ```json
-        "AddLegsAdjustment": {
-          "Legs": [
-            {
-              "Name": "long_put",
-              "Qty": "1",
-              "ExpirationName": "exp2",
-              "StrikeSelector": {
-                "Statement": "leg_short_put_strike + 25"
-              },
-              "OptionType": "Put"
-            }
-          ],
-          "Expirations":[
-            {
-              "Name": "exp2",
-              "DTE": "100",
-              "Min": 90,
-              "Max": 110,
-              "Roots": null
-            }
-          ],
-          "AbortConditions": [
-            "leg_long_put_price > short_put_initial_price -- wait until long_put is cheaper than short_put"
-          ]
+    "AddLegsAdjustment": {
+      "Legs": [
+        {
+          "Name": "long_put",
+          "Qty": "1",
+          "ExpirationName": "exp2",
+          "StrikeSelector": {
+            "Statement": "leg_short_put_strike + 25"
+          },
+          "OptionType": "Put"
         }
+      ],
+      "Expirations":[
+        {
+          "Name": "exp2",
+          "DTE": "100",
+          "Min": 90,
+          "Max": 110,
+          "Roots": null
+        }
+      ],
+      "AbortConditions": [
+        "leg_long_put_price > short_put_initial_price -- wait until long_put is cheaper than short_put"
+      ]
+    }
 ```
 
 All the AddLegAdjustment fields are matching the previously introduced described top level fields:
@@ -814,7 +814,12 @@ The following built-in templates demonstrate the Add Legs Adjustment functionali
 
 ### Indicators
 
-In the Indicators section, the user can define technical analysis indicators (such as the Exponential Moving Average) to be used during simulation. The indicators are calculated for the given Instrument using the provided timing parameters. Currently, the only supported Instrument is the underlying index’s price.The specified indicators are represented as standard variables in the ScriptEngine. Therefore they can be used in every place where a Statement is evaluated. For example
+In the Indicators section, the user can define technical analysis indicators (such as the Exponential Moving Average) to be used during simulation. 
+The indicators are calculated for the given Instrument using the provided timing parameters. 
+Currently, the only supported Instrument is the underlying index’s price.
+
+The specified indicators are represented as standard variables in the [ScriptEngine](/docs/about-the-simulator/scriptengine.md). 
+Therefore, they can be used in every place where a Statement is evaluated. For example:
 
 - Entry.Conditions
 - Exit.Conditions
@@ -822,8 +827,15 @@ In the Indicators section, the user can define technical analysis indicators (su
 - StrikeSelector’s Statement
 - Expiry DTE Statement
 
-The Indicators top-level field currently contains one entry: Standard.This additional indirection is planned to add Machine Learning based indicators to the simulator later, which will have different specifications than the normal, standard indicators.The Standard field is a JSON Map (aka Dictionary), which binds user-defined names to indicator specifications. The user-defined name will be used as the variable name in the ScriptEngine.Example of two indicators specified: ema_5 and ema_10
+The Indicators top-level field currently contains one entry: Standard.
 
+This additional indirection is planned to add Machine Learning based indicators to the simulator later, 
+which will have different specifications than the normal, standard indicators.
+
+The Standard field is a JSON Map (aka Dictionary), which binds user-defined names to indicator specifications. 
+The user-defined name will be used as the variable name in the ScriptEngine.
+
+Example of two indicators specified: `ema_5` and `ema_10`
 ```json
   "Indicators": {
     "Standard": {
@@ -848,11 +860,17 @@ The Indicators top-level field currently contains one entry: Standard.This addit
 
 Each indicator definition has a
 
-- Type: defines which indicator to use. See the complete list below
-- Instrument: defines the data source (optional: the underlying price is used when null)
-- Param1, Param2, Param3: Parameters for the specified indicator. As different indicators have different parameters, many parameters should be filled as many are required by the specified indicator.
+- <b>Type</b>: defines which indicator to use. See the complete list below
+- <b>Instrument</b>: defines the data source (optional: the underlying price is used when null)
+- <b>Param1, Param2, Param3</b>: Parameters for the specified indicator. <br/>As different indicators have different parameters, many parameters should be filled as many are required by the specified indicator.
 
-Once the indicator is specified, it can be used as a normal variable throughout the simulation. Most indicators (such as EMA(10) above) yield one value as a result. Such indicators' value is accessible by simply using the user-defined name (e.g. ema10).Indicators, which produce multiple results (such as BBANDS, MAMA, MACD, STOCHRSI, etc) the indicator name will be taken as a prefix and the respective indicator value will be suffixed to a unique variable. For example, in case of BBANDS:
+Once the indicator is specified, it can be used as a normal variable throughout the simulation.
+
+Most indicators (such as EMA(10) above) yield one value as a result. Such indicators' value is accessible by simply using the user-defined name (e.g. ema10).
+
+Indicators, which produce multiple results (such as BBANDS, MAMA, MACD, STOCHRSI, etc) the indicator name will be taken as a prefix and the respective indicator value will be suffixed to a unique variable. 
+
+For example, in case of BBANDS:
 
 ```json
  "Indicators": {
@@ -877,77 +895,70 @@ The resulting variables will become:
 
 List of available indicators with their suffixes:
 
-APO(fastPeriod, slowPeriod)Absolute Price OscillatorBBANDS(timePeriod, devUp, devDown)Bollinger BandsReturns: bbands_lower, bbands_middle, bbands_upperCMO(period)Chande Momentum IndicatorDEMA(period)Double Exponential Moving AverageEMA(period)Exponential Moving Average
+- `APO(fastPeriod, slowPeriod)`: Absolute Price Oscillator
+- `BBANDS(timePeriod, devUp, devDown)`: Bollinger Bands. <br/> Returns: `bbands_lower, bbands_middle, bbands_upper`
+- `CMO(period)`: Chande Momentum Indicator
+- `DEMA(period)`: Double Exponential Moving Average
+- `EMA(period)`: Exponential Moving Average 
+- `KAMA(period)`: Kaufman’s Adaptive Moving Average
+- `MACD(fastPeriod, slowPeriod, signalPeriod)`: Moving Average Convergence/Divergence <br/> Returns: `macd_macd, macd_signal, macd_hist`
+- `MAMA(fastLimit, slowLimit)`: MESA Adaptive Moving Average <br/> Returns: `mama_mama, mama_fama`
+- `MOM(period)`: Momentum Indicator
+- `PPO(fastPeriod, slowPeriod)`: Percentage Price Oscillator
+- `ROC(period)`: Rate Of Change
+- `RSI(period)`: Relative Strength Index
+- `SMA(period)`: Simple Moving Average
+- `STOCHRSI(timePeriod, fastKPeriod, fastDPeriod)` Stochastic RSI <br/>Returns: `stochrsi_fast_k, stochrsi_fast_d`
+- `TEMA(period)`: Triple Exponential Moving Average
+- `TRIMA(period)`: Triangular Moving Average
+- `TRIX(period)`: Triple Exponential Average 
+- `TSF(period)`: Time Series Forecast
+- `VAR(period)`: Variance
+- `WMA(period)`: Weighted Moving Average
 
-`APO(fastPeriod, slowPeriod)`
 
-`BBANDS(timePeriod, devUp, devDown)`
+### External CSV Data
 
-`CMO(period)`
+Load data from the CSV file and make it available to the backtest.
 
-`DEMA(period)`
+The ExternalData.CsvUrl allows users to bring their data and use it in the backtest.
+The CSV file columns will be available as variables in the backtest throughout the execution.
 
-`EMA(period)`
-
-KAMA(period)Kaufman’s Adaptive Moving AverageMACD(fastPeriod, slowPeriod, signalPeriod)Moving Average Convergence/DivergenceReturns: macd_macd, macd_signal, macd_histMAMA(fastLimit, slowLimit)MESA Adaptive Moving AverageReturns: mama_mama, mama_famaMOM(period)Momentum IndicatorPPO(fastPeriod, slowPeriod)Percentage Price OscillatorROC(period)Rate Of ChangeRSI(period)Relative Strength IndexSMA(period)Simple Moving AverageSTOCHRSI(timePeriod, fastKPeriod, fastDPeriod)Stochastic RSIReturns: stochrsi_fast_k, stochrsi_fast_dTEMA(period)Triple Exponential Moving AverageTRIMA(period)Triangular Moving AverageTRIX(period)Triple Exponential Average
-
-`KAMA(period)`
-
-`MACD(fastPeriod, slowPeriod, signalPeriod)`
-
-`MAMA(fastLimit, slowLimit)`
-
-`MOM(period)`
-
-`PPO(fastPeriod, slowPeriod)`
-
-`ROC(period)`
-
-`RSI(period)`
-
-`SMA(period)`
-
-`STOCHRSI(timePeriod, fastKPeriod, fastDPeriod)`
-
-`TEMA(period)`
-
-`TRIMA(period)`
-
-`TRIX(period)`
-
-TSF(period)Time Series ForecastVAR(period)VarianceWMA(period)Weighted Moving Average
-
-`TSF(period)`
-
-`VAR(period)`
-
-`WMA(period)`
-
-#### External CSV Data
-
-Load data from the CSV file and make it available to the backtest.The ExternalData.CsvUrl allows users to bring their data and use it in the backtest.The CSV file columns will be available as variables in the backtest throughout the execution.Requirements:
+Requirements:
 
 - The CSV file must have a header row with the names of the columns/variables.
-- The first column must be named date or datetime and can contain date or datetime values
+- The first column must be named `date` or `datetime` and can contain date or datetime values
 - The rest of the columns must have unique alphabetic names that do not conflict with the simulator's internal variables
 - The CSV file must be smaller than 1 MB
 - The CSV file must be publicly accessible either via Github Gist or Google Sheets's "Publish to the web" feature
 - Github Gist is preferred over Google Sheets because it is faster to load
 
-Behavior:If the first column contains only a date (no time), then the data is assumed to be sampled at EOD. Therefore, the values set for the day will be available the next day.If the first column contains a date and time, then the values will be usable after the given date and time is passed. These safety measures ensure that no Lookahead Bias is introduced to the simulation.
+:::tip[Behavior]
+If the first column contains only a date (no time), then the data is assumed to be sampled at EOD.
+Therefore, the values set for the day will be available the next day.
 
-The system caches the CSV file for 30 seconds between validations and downloads to avoid excessive requests. After changing the content of the uploaded file, you need to wait for the caching to expire to see new values.
+If the first column contains a date and time, then the values will be usable after the given date and time is passed. 
+These safety measures ensure that no Lookahead Bias is introduced to the simulation.
+:::
+
+The system caches the CSV file for 30 seconds between validations and downloads to avoid excessive requests.
+After changing the content of the uploaded file, you need to wait for the caching to expire to see new values.
 
 Further references:
 
 - The `[SPX-ExternalData-Csv]` template demonstrates the usage of this feature
 - Please see the External Data FAQ Article for more information.
 
-#### SimSettings
+### SimSettings
 
-The simulation-related settings, such as Fill Model, Slippage and commission, are located in the SimSettings object. 
+The simulation-related settings, such as Fill Model, Slippage and commission, are located in the SimSettings object.
 
-Note: The user's preferences have a Settings Page to set the majority of the SimSettings fields and will be applied to any templated run initiated by the web interface.
+:::tip 
+
+The user's preferences have a Settings Page to set the majority of the SimSettings fields and will be applied to 
+any templated run initiated by the web interface.
+
+:::
 
 SimSettings definition:
 
@@ -973,11 +984,22 @@ SimSettings definition:
 ```
 
 
-Margin (new in version 2.8):Margin field controls the margin calculation used during the simulation.The Reg-T margin model enables the calculation and capturing of the margin requirement of complex options positions based on CBOE's Margin Manual. The margin requirement for each position is calculated in every simulation step and made accessible to the user through the pos_margin variable. The sum of all position margins is used to calculate the account margin, which is provided by the acc_margin variable.The PM-Like margin model tries to approximate brokerages' Portfolio Margin mode by projecting the Risk Graph's T+0 line to the user-specified boundaries (haircuts). The Portfolio Margin calculation is a highly complex subject and brokerages do not fully disclose their calculations, therefore the calculated margin using this mode is only an approximate.SimSettings.Margin.Model:When SimSettings.Margin set to null or SimSettings.Margin.Model set to "None" , no margin calculation is performed, and the margin variables will not be populated. When set to "RegT" margin calculations are executed based on CBOE's Margin Manual. When set to "PMLike", then margin calculations are done using T+0 Risk Graph.
+#####  Margin (new in version 2.8):
+Margin field controls the margin calculation used during the simulation.
 
-SimSettings.Margin.HouseMultiplier:Reg-T Margin enables Brokers to increase the margin requirement for positions.Additionally, sometimes PM requirements are increased by the brokerage.The SimSettings.Margin.HouseMultiplier variable enables users to model the heightened margin requirements set by brokers by multiplying the margin calculation's result with the user-provided multiplier. The default value is 1.0.SimSettings.Margin.RegTMode:CBOE's Reg-T manual defines two calculation modes for complex options positions:1) CBOEVanilla: The margin requirement is calculated by the predefined rules2) CBOEPermissive: The vanilla margin calculation's result is reduced by the proceeds of the short sales of complex positions' legs whenever the Margin Manual allows.Based on our experience, the brokers tend to use the Permissive mode with a House Multiplier of 1.2-1.5 based on their current risk assessment.
+The Reg-T margin model enables the calculation and capturing of the margin requirement of complex options positions 
+based on CBOE's Margin Manual. The margin requirement for each position is calculated in every simulation step and 
+made accessible to the user through the `pos_margin` variable. The sum of all position margins is used to calculate 
+the account margin, which is provided by the `acc_margin` variable.
 
-SimSettings.Margin.PMConfig:This field enables setting the upper and lower bounds for the PM Approximation. The highest PnL drop within this range is used to determine the PM requirement:
+The PM-Like margin model tries to approximate brokerages' Portfolio Margin mode by projecting the Risk Graph's T+0 line 
+to the user-specified boundaries (haircuts). The Portfolio Margin calculation is a highly complex subject and brokerages 
+do not fully disclose their calculations, therefore the calculated margin using this mode is only an approximation.
+
+- <b>SimSettings.Margin.Model</b>: <br/>When SimSettings.Margin set to null or SimSettings.Margin.Model set to "None" , no margin calculation is performed, and the margin variables will not be populated. When set to "RegT" margin calculations are executed based on CBOE's Margin Manual. When set to "PMLike", then margin calculations are done using T+0 Risk Graph.
+- <b>SimSettings.Margin.HouseMultiplier</b>: <br/> Reg-T Margin enables Brokers to increase the margin requirement for positions.Additionally, sometimes PM requirements are increased by the brokerage.The SimSettings.Margin.HouseMultiplier variable enables users to model the heightened margin requirements set by brokers by multiplying the margin calculation's result with the user-provided multiplier. The default value is 1.0.
+- <b>SimSettings.Margin.RegTMode</b>: <br/>CBOE's Reg-T manual defines two calculation modes for complex options positions:1) CBOEVanilla: The margin requirement is calculated by the predefined rules2) CBOEPermissive: The vanilla margin calculation's result is reduced by the proceeds of the short sales of complex positions' legs whenever the Margin Manual allows.Based on our experience, the brokers tend to use the Permissive mode with a House Multiplier of 1.2-1.5 based on their current risk assessment.
+- <b>SimSettings.Margin.PMConfig</b>: <br/>This field enables setting the upper and lower bounds for the PM Approximation. The highest PnL drop within this range is used to determine the PM requirement:
 
 ```json
 "PMConfig": {
@@ -986,13 +1008,15 @@ SimSettings.Margin.PMConfig:This field enables setting the upper and lower bound
 }
 ```
 
-Please refer to the Margin Report page to see how the captured results can be interpreted.
+Please refer to the [Margin Report page](/about-the-simulator/margin-report.md) to see how the captured results can be interpreted.
 
-Commission:In case of Index Equity Options (SPX, RUT) the FixedFee Commission Model is suggested.
+##### Commission:
 
-With the FixedFee model each contract traded will be charged with a commission specified in the OptionFee field.
+In case of Index Equity Options (SPX, RUT) the FixedFee Commission Model is suggested.
 
-In the case of Crypto Options (BTCUSD and ETHUSD) the DeribitFeeModel is can be used:
+With the `FixedFee` model each contract traded will be charged with a commission specified in the OptionFee field.
+
+In the case of Crypto Options (BTCUSD and ETHUSD) the `DeribitFeeModel` is can be used:
 
 ```json
   "SimSettings": {
@@ -1014,20 +1038,49 @@ In the case of Crypto Options (BTCUSD and ETHUSD) the DeribitFeeModel is can be 
   }
 ```
 
-The defaults of this commission setting reflect Deribit's Fees at the time of writing (2023-03-15), but the user is free to change it. The Maker/Taker fees, Max Fee and Delivery fees are described in Deribit's website in detail.
+The defaults of this commission setting reflect Deribit's Fees at the time of writing (2023-03-15), 
+but the user is free to change it. The Maker/Taker fees, Max Fee and Delivery fees are described in Deribit's website in detail.
 
-The WaiveBuySellComboOneSide parameter models the discounted commission structure, where the cheapest part of the combo order (which has both long and short legs) is waived. This can be turned off as the user might simulate complex structures, which Deribit doesn't recognize.
+The WaiveBuySellComboOneSide parameter models the discounted commission structure, where the cheapest part of the 
+combo order (which has both long and short legs) is waived. This can be turned off as the user might simulate complex 
+structures, which Deribit doesn't recognize.
 
-Similarly, WaiveDailyOptionsDeliveryFees parameter controls that Fees are waived when Daily Options are kept until expiration. This can be switched off to future-proof the commission as these discount might be not offered by Deribit in the future.
+Similarly, WaiveDailyOptionsDeliveryFees parameter controls that Fees are waived when Daily Options are kept until expiration. 
+This can be switched off to future-proof the commission as these discount might be not offered by Deribit in the future.
 
-The FeeModel parameter controls how fills are calculated for every entry, exit and NAV calculation: - AtBidAsk provides a pessimistic approach to fills - AtMidPrice is filling in the mid-point of the Bid-Ask spread.Fills close to MidPrice with some slippage are often achievable in liquid markets, such as SPX.
+##### FeeModel:
+The FeeModel parameter controls how fills are calculated for every entry, exit and NAV calculation:
+- `AtBidAsk` provides a pessimistic approach to fills
+- `AtMidPrice` is filling in the mid-point of the Bid-Ask spread.
 
+Fills close to MidPrice with some slippage are often achievable in liquid markets, such as SPX.
 Slippage is the exact amount applied per contract if specified.
 
-LegSelectionConstraint controls how contracts are chosen for each leg of a position. When set to FullyUnique (default), then each leg of every position must be unique.This holds true for position initiation and adjustment as well. In this behavior, if the StrikeSelector selects a contract that is already in use by another position, then the next closest contract is selected.The UniqueInPosition is less restrictive than FullyUnique:Contracts for legs can be shared across multiple positions, but within a position, each leg must remain unique. This restriction holds true for entry and adjustments as well.The None option enables the least restrictive mode of operation:it allows strike sharing within and across positions. When enabled, entries and adjustments can re-use strikes from existing legs (that is: two legs can end up in the same contract).  Please note that when an offsetting position is made, it is not closing the affected leg, but the two legs are tracked as separate entities.Remark: UniqueInPosition is introduced in Version 2.6, while None is introduced in Version 2.7. Prior versions always used (the now default) FullyUnique.
+#### LegSelectionConstraint 
+LegSelectionConstraint  controls how contracts are chosen for each leg of a position.
+When set to `FullyUnique` (default), then each leg of every position must be unique.
+This holds true for position initiation and adjustment as well. In this behavior, if the 
+StrikeSelector selects a contract that is already in use by another position, then the next closest 
+contract is selected.
+
+The `UniqueInPosition` is less restrictive than FullyUnique:Contracts for legs can be shared across 
+multiple positions, but within a position, each leg must remain unique. This restriction holds true for entry 
+and adjustments as well.
+
+The `None` option enables the least restrictive mode of operation:
+it allows strike sharing within and across positions. When enabled, entries and adjustments can re-use strikes 
+from existing legs (that is: two legs can end up in the same contract).
+
+Please note that when an offsetting position is made, it is not closing the affected leg, 
+but the two legs are tracked as separate entities.
+
+:::warning[Remark] 
+UniqueInPosition is introduced in Version 2.6, while None is introduced in Version 2.7. <br/>
+Prior versions always used (the now default) FullyUnique.
+:::
 
 
-PositionMonitor
+##### PositionMonitor
 
 The trace collection interval can be specified via the PositionMonitor settings:
 
@@ -1039,8 +1092,8 @@ The trace collection interval can be specified via the PositionMonitor settings:
 
 Valid values for TraceCollectionInterval:
 
-- Off       :  Fastest
-- Daily   : Fast
-- Hourly : Most resource intensive
+- <b>Off</b>  : Fastest
+- <b>Daily</b>: Fast
+- <b>Hourly</b> : Most resource intensive
 
-Please refer to the Backtest Position Monitor article for a complete description of the subject.
+Please refer to the Backtest [Position Monitor](/about-the-simulator/position-monitor.md) article for a complete description of the subject.
