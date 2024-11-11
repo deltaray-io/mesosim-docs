@@ -1,6 +1,6 @@
 ---
 sidebar_label: 'Choose a Leg certain points away'
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Choose a Leg certain points away
