@@ -5,7 +5,11 @@ sidebar_position: 1
 
 # Script Engine
 
+:::info
+
 The Script Engine in MesoSim allows describing complex conditions and calculating expressions using the Lua programming language.
+
+:::
 
 You can find extensive documentation of the language syntax in the [official Lua manual](https://www.lua.org/manual/5.4/manual.html#3).
 
