@@ -7,10 +7,10 @@ sidebar_position: 7
 
 MesoSim records its key execution steps in the Event Log stream, known as **Blotter Events**. The events recorded in Blotter are visible on the Backtest Details page under the ‘Events’ tab:
 
-import Events from '/img/about-the-simulator/6-Event-Log-Editor-2-md.png';
+import Events from '/img/about-the-simulator/event-log.png';
 
 <center>
-    <img src={Events} alt="Events" style={{width: 700, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}} />
+    <img src={Events} alt="Events" style={{width: 800, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}} />
 </center>
 
 With MesoSim version 2.1.0, the event log can be exported, enabling users to conduct post-processing and custom analytics. The event log format is JSON, and during the download, it is compressed into a zip file for easy extraction on all platforms.

@@ -21,7 +21,7 @@ import Variables from '/img/about-the-simulator/variables.png';
 
 Note that you can see the **available constants and their values** in a backtest under the **Events** tab by opening up row details using the arrow on the left-hand side:
 
-import Variables2 from '/img/about-the-simulator/5-Available-Constants-and-their-Values-2.png';
+import Variables2 from '/img/about-the-simulator/variables2.png';
 
 <center>
     <img src={Variables2} alt="Variables" style={{width: 800, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}} />
