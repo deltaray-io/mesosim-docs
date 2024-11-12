@@ -10,7 +10,7 @@ sidebar_position: 1
 MesoSim was created to test option strategies using a low-code approach.
 
 <center>
-<iframe width="100%" style={{"aspect-ratio": "16 / 9"}} src="https://www.youtube.com/embed/W8lPRKjq-Dk"/>
+    <iframe width="100%" style={{"aspect-ratio": "16 / 9"}} allow="fullscreen;" src="https://www.youtube.com/embed/W8lPRKjq-Dk?rel=0"/>
 </center>
 
 <hr/>
