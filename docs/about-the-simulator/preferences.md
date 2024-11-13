@@ -55,8 +55,8 @@ In MesoSim, we use slippage to model the extra cost paid on top of what the Fill
 
 **Commission** is the amount paid to the broker per contract traded. This value should be adjusted to match your account at your brokerage.
 
-**Leg selection constraint** controls how contracts are chosen for each leg of a position. For a detailed description of this parameter, please refer to the [Job Definition Reference's](https://docs.deltaray.io/job-definition-reference.html) SimSettings section.
+**Leg selection constraint** controls how contracts are chosen for each leg of a position. For a detailed description of this parameter, please refer to the [Job Definition Reference's](https://docs.mesosim.io/job-definition-reference) SimSettings section.
 
-**Margin Model** defines which margin calculation to use during the simulation run. Currently, it is either turned off (*None*) or could be set to *Reg-T*. Please refer to the [Job Definition Reference's](https://docs.deltaray.io/job-definition-reference.html) respective section on more information about the supported margin models.
+**Margin Model** defines which margin calculation to use during the simulation run. Currently, it is either turned off (*None*) or could be set to *Reg-T*. Please refer to the [Job Definition Reference's](https://docs.mesosim.io/job-definition-reference) respective section on more information about the supported margin models.
 
-**Trace Collection Interval** defines the frequency of Risk Trace collection. Please refer to the [Backtest Position Monitor](https://docs.deltaray.io/backtest-position-monitor.html) for further details on the topic.
+**Trace Collection Interval** defines the frequency of Risk Trace collection. Please refer to the [Backtest Position Monitor](https://docs.mesosim.io/job-definition-reference) for further details on the topic.

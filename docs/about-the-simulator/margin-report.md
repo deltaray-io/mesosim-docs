@@ -29,7 +29,7 @@ Return On Max Margin = Position PnL at Exit / Maximum Margin During the Trade
 
 For each position's Return On Max Margin measure, the Minimum, Maximum, Average, and Median statistics are presented in the details table.
 
-For further details on the Margin Settings, please see the [Job Definition Reference's](https://docs.deltaray.io/job-definition-reference.html) SimSettings section.
+For further details on the Margin Settings, please see the [Job Definition Reference's](https://docs.mesosim.io/job-definition-reference) SimSettings section.
 
 :::warning
 

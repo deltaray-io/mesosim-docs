@@ -89,6 +89,6 @@ Even with `TraceCollection` disabled, an approximate Risk Graph is still display
 
 ### Preferences
 
-The preferred Trace Collection interval can be specified in the [Users' Preferences](https://docs.deltaray.io/settings.html).
+The preferred Trace Collection interval can be specified in the [Users' Preferences](https://docs.mesosim.io/about-the-simulator/preferences).
 When set, the specified value will be used in simple and templated runs.
 

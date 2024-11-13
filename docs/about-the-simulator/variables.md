@@ -9,7 +9,7 @@ MesoSim exposes the following Variables, which can be used in expressions.
 
 You can find the list of available variables in the Job Editor.
 
-The range of available Variables was significantly updated with MesoSim 2.0; if you want to know more about the specific changes, please read the Backward Incompatible Changes section of our [Release Notes](https://docs.deltaray.io/release-notes.html).
+The range of available Variables was significantly updated with MesoSim 2.0; if you want to know more about the specific changes, please read the Backward Incompatible Changes section of our [Release Notes](https://blog.deltaray.io/tags/releases/).
 
 import Variables from '/img/about-the-simulator/variables.png';
 

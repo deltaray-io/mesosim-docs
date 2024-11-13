@@ -23,4 +23,4 @@ We also provide basic templates, such as Short Put, Straddle, and Butterfly, spe
 
 While our advanced templates (like [Boxcar-NG](https://blog.deltaray.io/boxcar-ng-an-optimized-boxcar) and [NetZero](https://blog.deltaray.io/netzero-trade)) could theoretically apply to Crypto Options, they require adjustments and tuning to account for the unique characteristics of crypto options to become profitable strategies.
 
-For detailed behavioral differences, refer to the relevant sections in the [Job Definition Reference](https://docs.deltaray.io/job-definition-reference.html).
+For detailed behavioral differences, refer to the relevant sections in the [Job Definition Reference](https://docs.mesosim.io/job-definition-reference).
