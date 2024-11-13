@@ -1,9 +1,9 @@
 ---
-sidebar_label: 'Ecents Viewer'
+sidebar_label: 'Events Viewer'
 sidebar_position: 12
 ---
 
-# Observability of each backtest action - Events viewer
+#  Events viewer: Observability of each backtest action
 
 The **Events Tab** was explicitly designed to provide in-depth **observability** for each trade.
 
