@@ -21,7 +21,7 @@ If you wish to **disable sharing,** click on the sharing radio button so that it
 import Share2 from '/img/about-the-simulator/share2.png';
 
 <center>
-    <img src={Share2} alt="Share disabled" style={{width: 300}} />
+    <img src={Share2} alt="Share disabled" style={{width: 200}} />
 </center>
 
 To illustrate sharing, we provide the ‘best’ [benchmark run](https://portal.deltaray.io/backtests/d93ec692-b017-45d5-a7a9-845e9716a679) in this tutorial.
