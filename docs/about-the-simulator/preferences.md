@@ -59,4 +59,4 @@ In MesoSim, we use slippage to model the extra cost paid on top of what the Fill
 
 **Margin Model** defines which margin calculation to use during the simulation run. Currently, it is either turned off (*None*) or could be set to *Reg-T*. Please refer to the [Job Definition Reference's](https://docs.mesosim.io/job-definition-reference) respective section on more information about the supported margin models.
 
-**Trace Collection Interval** defines the frequency of Risk Trace collection. Please refer to the [Backtest Position Monitor](https://docs.mesosim.io/job-definition-reference) for further details on the topic.
+**Trace Collection Interval** defines the frequency of Risk Trace collection. Please refer to the [Backtest Position Monitor](https://docs.mesosim.io/about-the-simulator/position-monitor) for further details on the topic.
