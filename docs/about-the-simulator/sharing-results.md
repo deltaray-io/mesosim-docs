@@ -10,7 +10,7 @@ Your backtest results are visible only to you by default. If you wish to share a
 import Share1 from '/img/about-the-simulator/share1.png';
 
 <center>
-    <img src={Share1} alt="Share enabled" style={{width: 300}} />
+    <img src={Share1} alt="Share enabled" style={{width: 200}} />
 </center>
 
 When sharing is enabled, others who have the URL of your backtest will be able to see all the run details: PnL graph, Events, and Job Definition, and can clone from your backtest.  
