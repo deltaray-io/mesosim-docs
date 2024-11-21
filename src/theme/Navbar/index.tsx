@@ -9,7 +9,7 @@ type Props = WrapperProps<typeof NavbarType>;
 export default function NavbarWrapper(props: Props): JSX.Element {
   const location = useLocation();
 
-  const hideNavbarPath = '/no-navbar-job-definition-reference';
+  const hideNavbarPath = '/job-definition-standalone';
 
   const shouldHideNavbar = hideNavbarPath == location.pathname;
 
