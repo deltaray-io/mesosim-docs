@@ -4,16 +4,18 @@ import type DocRootType from '@theme/DocRoot';
 import type {WrapperProps} from '@docusaurus/types';
 import { useLocation } from '@docusaurus/router';
 import CookieConsent from "react-cookie-consent";
+import { normalizePath } from '@site/src/utils/normalizePath';
 
 type Props = WrapperProps<typeof DocRootType>;
 
+//NOTE: Wrapper for DocRoot that adds a cookie consent banner to every page, except for specific paths like "/job-definition-standalone".
 export default function DocRootWrapper(props: Props): JSX.Element {
   const location = useLocation();
 
   const hideCookieConsentPath = '/job-definition-standalone';
 
-  const normalizePath = (path: string) => path.replace(/\/+$/, '');
   const shouldHideCookieConsent = normalizePath(hideCookieConsentPath) === normalizePath(location.pathname);
+
   return (
     <>
       {shouldHideCookieConsent ? (
