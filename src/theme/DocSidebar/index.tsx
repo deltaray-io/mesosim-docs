@@ -11,8 +11,8 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
 
   const hideSidebarPath = '/job-definition-standalone';
 
-  const shouldHideSidebar = hideSidebarPath == location.pathname;
-
+  const normalizePath = (path: string) => path.replace(/\/+$/, '');
+  const shouldHideSidebar = normalizePath(hideSidebarPath) === normalizePath(location.pathname);
   return (
     <div style={{ display: shouldHideSidebar ? 'none' : 'block' }}>
       <DocSidebar {...props} />

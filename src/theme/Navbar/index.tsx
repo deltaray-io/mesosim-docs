@@ -11,8 +11,8 @@ export default function NavbarWrapper(props: Props): JSX.Element {
 
   const hideNavbarPath = '/job-definition-standalone';
 
-  const shouldHideNavbar = hideNavbarPath == location.pathname;
-
+  const normalizePath = (path: string) => path.replace(/\/+$/, '');
+  const shouldHideNavbar = normalizePath(hideNavbarPath) === normalizePath(location.pathname);
   return (
     <div style={{ display: shouldHideNavbar ? 'none' : 'block' }}>
       <Navbar {...props} />

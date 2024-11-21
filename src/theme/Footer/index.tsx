@@ -11,7 +11,8 @@ export default function FooterWrapper(props: Props): JSX.Element {
 
   const hideFooterPath = '/job-definition-standalone';
 
-  const shouldHideFooter = hideFooterPath == location.pathname;
+  const normalizePath = (path: string) => path.replace(/\/+$/, '');
+  const shouldHideFooter = normalizePath(hideFooterPath) === normalizePath(location.pathname);
   return (
     <div style={{ display: shouldHideFooter ? 'none' : 'block' }}>
       <Footer {...props} />

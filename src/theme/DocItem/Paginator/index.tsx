@@ -11,7 +11,8 @@ export default function PaginatorWrapper(props: Props): JSX.Element {
 
   const hidePaginatorPath = '/job-definition-standalone';
 
-  const shouldHidePaginator = hidePaginatorPath == location.pathname;
+  const normalizePath = (path: string) => path.replace(/\/+$/, '');
+  const shouldHidePaginator = normalizePath(hidePaginatorPath) === normalizePath(location.pathname);
   return (
     <div style={{ display: shouldHidePaginator ? 'none' : 'block' }}>
       <Paginator {...props} />

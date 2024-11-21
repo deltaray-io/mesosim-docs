@@ -12,7 +12,8 @@ export default function DocRootWrapper(props: Props): JSX.Element {
 
   const hideCookieConsentPath = '/job-definition-standalone';
 
-  const shouldHideCookieConsent = hideCookieConsentPath == location.pathname;
+  const normalizePath = (path: string) => path.replace(/\/+$/, '');
+  const shouldHideCookieConsent = normalizePath(hideCookieConsentPath) === normalizePath(location.pathname);
   return (
     <>
       {shouldHideCookieConsent ? (

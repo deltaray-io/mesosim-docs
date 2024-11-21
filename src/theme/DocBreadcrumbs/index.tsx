@@ -11,7 +11,8 @@ export default function DocBreadcrumbsWrapper(props: Props): JSX.Element {
 
   const hideBreadcrumbsPath = '/job-definition-standalone';
 
-  const shouldHideBreadCrumbs = hideBreadcrumbsPath == location.pathname;
+  const normalizePath = (path: string) => path.replace(/\/+$/, '');
+  const shouldHideBreadCrumbs = normalizePath(hideBreadcrumbsPath) === normalizePath(location.pathname);
   return (
     <div style={{ display: shouldHideBreadCrumbs ? 'none' : 'block' }}>
       <DocBreadcrumbs {...props} />
