@@ -1,21 +1,28 @@
 import React from 'react';
-import CookieConsent from "react-cookie-consent";
+import DocRoot from '@theme-original/DocRoot';
+import type DocRootType from '@theme/DocRoot';
+import type {WrapperProps} from '@docusaurus/types';
 import { useLocation } from '@docusaurus/router';
+import CookieConsent from "react-cookie-consent";
+import { normalizePath } from '@site/src/utils/normalizePath';
 
-const Root = ({ children }) => {
+type Props = WrapperProps<typeof DocRootType>;
+
+//NOTE: Wrapper for DocRoot that adds a cookie consent banner to every page, except for specific paths like "/job-definition-standalone".
+export default function DocRootWrapper(props: Props): JSX.Element {
   const location = useLocation();
 
   const hideCookieConsentPath = '/job-definition-standalone';
 
-  const shouldHideCookieConsent = hideCookieConsentPath == location.pathname;
+  const shouldHideCookieConsent = normalizePath(hideCookieConsentPath) === normalizePath(location.pathname);
 
   return (
     <>
       {shouldHideCookieConsent ? (
-        children
+        <DocRoot {...props} />
       ) : (
         <>
-          {children}
+          <DocRoot {...props} />
           <CookieConsent
             location="bottom"
             buttonText="Got it!"
@@ -59,7 +66,7 @@ const Root = ({ children }) => {
             <div style={{ maxWidth: "80%", lineHeight: "1.5" }}>
               We use cookies to enhance your experience on our website.{" "}
               <a
-                href="https://deltaray.io/privacy-policy"
+                href="https://deltaray.io/cookie-policy"
                 style={{
                   color: "#e0f7fa",
                   textDecoration: "underline",
@@ -74,6 +81,4 @@ const Root = ({ children }) => {
       )}
     </>
   );  
-};
-
-export default Root;
+}
