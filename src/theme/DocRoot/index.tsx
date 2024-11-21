@@ -64,7 +64,7 @@ export default function DocRootWrapper(props: Props): JSX.Element {
             <div style={{ maxWidth: "80%", lineHeight: "1.5" }}>
               We use cookies to enhance your experience on our website.{" "}
               <a
-                href="https://deltaray.io/privacy-policy"
+                href="https://deltaray.io/cookie-policy"
                 style={{
                   color: "#e0f7fa",
                   textDecoration: "underline",
