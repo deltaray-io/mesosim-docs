@@ -1,10 +1,12 @@
 ---
+sidebar_label: "Job Definition Reference"
 sidebar_position: 5
+NOTE_NOTE_NOTE: "the h1 (#) is set to empty purposedly so that this page renders nicely when included in mesosim job editor"
 ---
 
-# Job Definition Reference
+# 
 
-## High Level Overview
+## Job Definition Reference
 
 The job definition consists of six well-defined sections:
 
