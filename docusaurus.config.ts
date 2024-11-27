@@ -77,22 +77,39 @@ const config: Config = {
               label: 'Home',
               to: '/intro',
             },
+            {
+              label: 'MesoLive Docs',
+              href: 'https://docs.mesolive.io',
+            },
+          ],
+        },
+        {
+          title: 'Services',
+          items: [
+            { 
+              href: 'https://q-api.deltaray.io',
+              label: 'Q-API', 
+              },
+            { 
+              href: 'https://mesosim.io', 
+              label: 'MesoSim Portal', 
+            },
+            { 
+              href: 'https://mesolive.io', 
+              label: 'MesoLive Portal', 
+            },
           ],
         },
         {
           title: 'More',
           items: [
             {
+              label: 'deltaray',
+              href: 'https://deltaray.io',
+            },
+            {
               label: 'Blog',
-              to: 'https://blog.deltaray.io',
-            },
-            {
-              label: 'MesoSim',
-              href: 'https://mesosim.io',
-            },
-            {
-              label: 'MesoLive',
-              href: 'https://mesolive.io',
+              href: 'https://blog.deltaray.io',
             },
           ],
         },
