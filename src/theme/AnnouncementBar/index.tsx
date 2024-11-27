@@ -20,10 +20,10 @@ export default function AnnouncementBarWrapper(props: Props): JSX.Element {
         style={{
           backgroundColor: '#fef3c7',
           color: '#000',
-          padding: '5px',
+          padding: '5px 25px 5px 5px',
           textAlign: 'center',
           fontSize: 14,
-          zIndex: 1
+          zIndex: 1,
         }}
       >
         📄 This is just a section of the documentation. Check out the{' '}
@@ -33,9 +33,9 @@ export default function AnnouncementBarWrapper(props: Props): JSX.Element {
           rel="noopener noreferrer"
           style={{ color: '#2563eb', textDecoration: 'underline' }}
         >
-          full docs{' '}
+          full Docs
         </a>
-        for more information.
+        .
         <button
           onClick={() => setIsVisible(false)}
           style={{
