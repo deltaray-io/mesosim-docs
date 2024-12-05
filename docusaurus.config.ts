@@ -67,13 +67,6 @@ const config: Config = {
         },
       ],
     },
-    announcementBar: {
-      id: 'light-blue-promo',
-      content: '🎉 Black Friday Sale - Up to 20% Off! <a href="https://blog.deltaray.io/black-friday-2024">Read more</a> 🎉',
-      backgroundColor: '#68bcfc',
-      textColor: '#000',
-      isCloseable: true,
-    },
     footer: {
       style: 'dark',
       links: [
