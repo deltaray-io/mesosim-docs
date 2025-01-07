@@ -52,6 +52,12 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
+    algolia: {
+      appId: '7RLZ7QWNTC',
+      apiKey: '41c8643fde3474f7c99ff8d56b129cff',
+      indexName: 'mesosim',
+      contextualSearch: false,
+    },
     navbar: {
       title: 'MesoSim',
       logo: {
