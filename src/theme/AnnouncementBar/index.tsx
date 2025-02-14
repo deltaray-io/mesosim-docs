@@ -26,14 +26,14 @@ export default function AnnouncementBarWrapper(props: Props): JSX.Element {
           zIndex: 1,
         }}
       >
-        📄 This is just a section of the documentation. Check out the{' '}
+        📄 This is the Job Definition Reference section of the documentation. Check out the{' '}
         <a
           href="https://docs.mesosim.io/"
           target="_blank" 
           rel="noopener noreferrer"
           style={{ color: '#2563eb', textDecoration: 'underline' }}
         >
-          full Docs
+          full Docs here
         </a>
         .
         <button
