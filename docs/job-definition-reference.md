@@ -8,7 +8,7 @@ NOTE_NOTE_NOTE: "the h1 (#) is set to empty purposedly so that this page renders
 
 ## Job Definition Reference
 
-The job definition consists of six well-defined sections:
+The job definition consists of six sections:
 
 - <b>Top level fields</b>: <br/> Variables setting generic backtest-related parameters, such as:Start Date, End Date, Initial Cash, etc.
 - <b>Structure</b>: <br/> Defines the combination of legs to be traded.
