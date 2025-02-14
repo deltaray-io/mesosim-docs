@@ -408,7 +408,7 @@ Each leg has its unique `Name`, associated expiration (`ExpirationName`), option
 
   :::note[Complex Strike Selector Note]
   This selector iterates over all contracts it can be used to create spreads dynamically and balance more complex structures (such as BWBs) based on custom criteria.
-  For more information please refer to the [FAQ/Finding spreads page](https://docs.mesosim.io/faq/finding-spreads).
+  For more information please refer to the [FAQ/Finding spreads page](/faq/finding-spreads).
   :::
 
 
