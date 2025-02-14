@@ -38,7 +38,9 @@ export default function DocRootWrapper(props: Props): JSX.Element {
   return (
     <>
       {shouldHideCookieConsent ? (
-        <DocRoot {...props} />
+        <div style={{ marginTop: '-20px' }}>
+          <DocRoot {...props} />
+        </div>
       ) : (
         <>
           <DocRoot {...props} />

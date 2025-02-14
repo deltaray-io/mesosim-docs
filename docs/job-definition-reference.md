@@ -8,7 +8,7 @@ NOTE_NOTE_NOTE: "the h1 (#) is set to empty purposedly so that this page renders
 
 ## Job Definition Reference
 
-The job definition consists of six well-defined sections:
+The job definition consists of six sections:
 
 - <b>Top level fields</b>: <br/> Variables setting generic backtest-related parameters, such as:Start Date, End Date, Initial Cash, etc.
 - <b>Structure</b>: <br/> Defines the combination of legs to be traded.
@@ -288,10 +288,9 @@ The above snippet defines two expirations with unique names: `front` and `back`.
 Later, during leg definitions, these names will be used to refer to expiries defined in this section 
 (`Structure.Legs.ExpirationName` references `Structure.Expirations`). 
 It is a good practice to keep things simple and expressive; hence front is considered a good name. 
-The `Name` field is mandatory for every Expiration.The DTE field defines how many days out should an option contract be selected. 
+The `Name` field is mandatory for every Expiration.
 
-
-As simulation time passes and entry is considered, the DTE statement is evaluated (by the Lua Script Engine) to find an option contract to trade. 
+The DTE field defines how many days out should an option contract be selected. As simulation time passes and entry is considered, the DTE statement is evaluated (by the Lua Script Engine) to find an option contract to trade. 
 Note that expiry selection using DTE is not strict: the closest expiry will be chosen for the given DTE. 
 Referring to other leg's DTE field is possible via the `expiration_NAME_dte` variable. 
 As defined above, the `back` DTE will be calculated once the `front` 's exact DTE is found by adding 60 days to it.
@@ -320,6 +319,7 @@ For example, when the following root filter is specified:
 ```
 
 Then, in case of multiple matching Expirations at the given DTE, the first item in the Include list will be chosen: SPXW.
+
 When no Include has been specified, the Roots are ordered in the following manner:
 - <b>SPX</b>: SPXW, SPX, lexicographic order of the rest
 - <b>BTCUSD</b>: BTCD, BTCW, BTCM, BTCQ
@@ -333,7 +333,7 @@ Prior to version 2.4, when multiple matching expirations were present for the gi
 
 :::note[Crypto note]
 
-Deribit does not officially assign Root to the contracts yet still relies on different expiration types when calculating Fees. 
+Deribit does not officially assign Root to the contracts yet still relies on different expiration types when calculating [Fees](https://www.deribit.com/kb/fees). 
 MesoSim fills the gap and creates Root similarly as it is present in Index Options. 
 The last character of the Root Symbol denotes the expiration type:
 
@@ -347,7 +347,7 @@ The last character of the Root Symbol denotes the expiration type:
 #### Legs
 
 The section “Legs” defines option contracts to trade as part of the structure. 
-Each leg has its unique `Name`, associated expiration (ExpirationName), option type (Type), target quantity (Qty), and a strike selector (StrikeSelector):
+Each leg has its unique `Name`, associated expiration (`ExpirationName`), option type (`Type`), target quantity (`Qty`), and a strike selector (`StrikeSelector`):
 
 ```json
 "Legs": [
@@ -377,13 +377,13 @@ Each leg has its unique `Name`, associated expiration (ExpirationName), option t
 ```
 
 - **Name**: <br/>The unique name of the leg. Later, this name will be used when adjustments are made to the structure. Additionally, it makes job inspection and debugging easier.
-- **Qty**: <br/>Defines the number of contracts to be traded. If negative, a short position is taken. <br/>Crypto note: In case of Equity Index Options whole numbers are allowed, while in case of Crypto Options fractional shares (such as 0.2) can be specified.
-- **ExpirationName**: <br/>Reference back to the expiration defined in the Expirations section.
-- **OptionType**: <br/>Defines the option type to be traded. Either Put or Call.
+- **Qty**: <br/>Defines the number of contracts to be traded. If negative, a short position is taken. Crypto note: In case of Equity Index Options whole numbers are allowed, while in case of Crypto Options fractional shares (such as 0.2) can be specified.
+- **ExpirationName**: <br/>Reference back to the expiration defined in the `Expirations` section.
+- **OptionType**: <br/>Defines the option type to be traded. Either `Put` or `Call`.
 - **StrikeSelector**: <br/>Defines how strikes should be selected for the given leg. Currently, strikes can be selected based on type, greeks, IV, or using Statement selector. Given that we must end up selecting exactly one strike for a leg, this section must define exactly one selector.
-- **Min / Max**: <br/>The Min and Max are optional fields used to create a subset of the available strikes based on the StrikeSelector chosen.They always refer to the rest of the parameters of the given StrikeSelector (Prices, greeks, or IV). As Min and Max are both optional, they can be turned off by setting them to `null`.
+- **Min / Max**: <br/>The `Min` and `Max` are optional fields used to create a subset of the available strikes based on the StrikeSelector chosen.They always refer to the rest of the parameters of the given StrikeSelector (Prices, greeks, or IV). As Min and Max are both optional, they can be turned off by setting them to `null`.
 - **BidPrice / AskPrice / MidPrice**: <br/>Select the strike based on the associated price for the option. As the name implies, BidPrice searches for contracts where the Bid quote is closest to the specified value, while AskPrice applies the same logic to the Ask side of the quote. MidPrice is taking the mid-point between Bid and Ask. This field is helpful for hedging scenarios where one would like to specify that x% of the generated income is used for hedging.You can only use one of these variables (or one of the greek/IV options) at the same time and can combine it with the Min and Max fields if needed.For example, using SPX, use 33% of the expected premium to buy 1 long put: `BidPrice=(initial_theta * 60 * 0.33) / 100`
-- **Delta / Gamma / Theta / Vega / WVega / Rho / IV**: <br/>Select strikes closest to the specified greek or IV. The most commonly used field here would be Delta, as option structures are frequently specified using this greek. As the selector is a statement, it is possible to do dynamic hedging based on the rest of the structure.You can use only one of these variables (or one of the price options) simultaneously and combine it with the Min and Max fields if needed.The WVega selector is Weighted (or Modified) Vega as described in Nassim Taleb’s Dynamic Hedging book: a “simplified one-factor model using the variance of the volatilities broken up by maturities.” It is calculated using the following formula: `sqrt(30/dte)`.
+- **Delta / Gamma / Theta / Vega / WVega / Rho / IV**: <br/>Select strikes closest to the specified greek or IV. The most commonly used field here would be Delta, as option structures are frequently specified using this greek. As the selector is a statement, it is possible to do dynamic hedging based on the rest of the structure. You can use only one of these variables (or one of the price options) simultaneously and combine it with the Min and Max fields if needed. The `WVega` selector is Weighted (or Modified) Vega as described in Nassim Taleb’s Dynamic Hedging book: a “simplified one-factor model using the variance of the volatilities broken up by maturities.” It is calculated using the following formula: `sqrt(30/dte)`.
 - **Statement**: <br/>Select strikes by executing the statement. The use-case for this selector is to choose legs certain points away from another leg. For example, choosing the strike 25 points away from the short_put leg can be achieved by the following statement: 
    ```json
    "Statement": "leg_short_put_strike + 25"
@@ -402,12 +402,13 @@ Each leg has its unique `Name`, associated expiration (ExpirationName), option t
   The processing begins with walking through all contracts within the specified expiration and the `Constraints` are evaluated (if they present). 
   If all Constraints evaluate to true (or no if constraints are specified) then the `Statement` is calculated and stored in the inclusion list.
   Once all contracts are processed, the `Target` statement is evaluated. Finally, the contract that is closest to the Target is selected from the inclusion list.
+
   The Complex StrikeSelector snippet shown above selects contracts that are 20 points higher than the At The Money strike, while ensuring that the chosen 
   contract will always have a strike price higher than the current price of the underlying. 
 
   :::note[Complex Strike Selector Note]
   This selector iterates over all contracts it can be used to create spreads dynamically and balance more complex structures (such as BWBs) based on custom criteria.
-  For more information please refer to the FAQ/Finding spreads page.
+  For more information please refer to the [FAQ/Finding spreads page](/faq/finding-spreads).
   :::
 
 
@@ -436,7 +437,9 @@ The Entry section is used to specify when and how entries are made. Specifying t
 
 Defines the time and frequency when entry is considered. As exact timing (such as 14:10) is problematic due to early closes in exchanges, 
 we have taken the route to specify the timing using relative times from Open (`AfterMarketOpenMinutes`) or Close (`BeforeMarketCloseMinutes`). 
-This approach has no problem with early closes.Crypto Options (on Deribit) trade 24x7; hence there is no official close. 
+This approach has no problem with early closes.
+
+Crypto Options (on Deribit) trade 24x7; hence there is no official close. 
 In order to match the job definition with Equity Index Options, MesoSim considers UTC 00:00 as the Open and Close time for Crypto exchange.
 
 
@@ -493,7 +496,7 @@ Therefore all the Greeks are set to 0. See AbortConditions to filter based on th
 
 #### Variable Definitions
 
-The VarDefines section enables the user to capture the state during entry. 
+The `VarDefines` section enables the user to capture the state during entry. 
 Then at later stages (Adjustment and Exit), these variables become available in the Conditions section.
 
 A practical example is to capture the whole structure’s Theta at initiation, then later compare it with the point in time Theta exits the position:
@@ -535,7 +538,7 @@ For more details please see the [Set Quantity Dynamically](/faq/set-qty-dynamica
 
 #### Concurrency
 
-The Entry.Concurrency section contains the settings for the parallel positions in flight. The way of concurrency is controlled using two variables:
+The `Entry.Concurrency` section contains the settings for the parallel positions in flight. The way of concurrency is controlled using two variables:
 
 1. `MaxPositionsInFlight`: <br/> Defines how many parallel positions should be taken at the maximum. The number of parallel positions can be less than this if the entry conditions do not enable position entry.
 2. `EntryShiftDays`: <br/> This variable defines how many days should be kept between two entries.
@@ -584,7 +587,7 @@ The desired profit target where a trade should be exited. This field takes an ex
 Defines a profit target as the projected total theta obtained by holding to the position for 160 days multiplied by a 50% discount factor.
 
 :::note[Crypto Note]
-In Deribit, the Theta is represented in Dollars, while the options trade in their respective Crypto Currency (BTC or ETH). 
+In [Deribit](https://insights.deribit.com/education/introduction-to-option-greeks/), the Theta is represented in Dollars, while the options trade in their respective Crypto Currency (BTC or ETH). 
 Therefore, when calculating expected profit based on theta, the pos_theta should be divided by the underlying price to arrive at the respective cryptocurrency:
 ```json
   "ProfitTarget": "pos_theta/underlying_price * 160 * 0.5"
@@ -664,14 +667,14 @@ For a complete reference on StrikeSelector, please refer to the [Structure](#Str
 
 In the above example, we create two Conditional Adjustments.
 
-The ConditionalAdjustments section is a JSON Map (aka. dictionary), which maps keys 
-(such as the `pos_delta < -5` statement) to values (such as MoveLegAdjustment structure).
+The `ConditionalAdjustments` section is a JSON Map (aka. dictionary), which maps keys 
+(such as the `pos_delta < -5` statement) to values (such as `MoveLegAdjustment` structure).
 
 In MesoSim, the keys of this map are statements executed by the [ScriptEngine](/docs/about-the-simulator/scriptengine.md). 
 The statements must evaluate to bool (true or false) to signal the simulator if the adjustment should be activated or not. 
 In the above example, we have two entries (key-value pairs) in the map:
-- When the structure delta moves beyond 5, we move the short_call leg.
-- When the structure delta moves below -5, we move the short_put leg.
+- When the structure delta moves beyond 5, we move the `short_call` leg.
+- When the structure delta moves below -5, we move the `short_put` leg.
 
 The Conditional Statements in Conditional Adjustments are alphabetically ordered and evaluated before execution. 
 This behavior enables moving (or removing) multiple legs in a predictable manner. 
@@ -707,8 +710,9 @@ Why bother creating a formula if we could have just written leg_short_call_delta
 Well, this is a pedagogical example that shows how to calculate it dynamically. 
 The method outlined here works even if multiple legs are considered (for instance, in the case of an Iron Condor strategy).
 
-
+:::info
 Move Leg Adjustment enables the user to move the leg vertically (by moving the strikes), horizontally (by moving the expiration), or both.
+:::
 
 The mandatory StrikeSelector is used to specify the new strike, while the optional Expirations and ExpirationName can move the leg in time. 
 
@@ -890,9 +894,9 @@ For example, in case of BBANDS:
 
 The resulting variables will become:
 
-- bbands_lower
-- bbands_middle
-- bbands_upper
+- `bbands_lower`
+- `bbands_middle`
+- `bbands_upper`
 
 
 List of available indicators with their suffixes:
@@ -923,7 +927,7 @@ List of available indicators with their suffixes:
 
 Load data from the CSV file and make it available to the backtest.
 
-The ExternalData.CsvUrl allows users to bring their data and use it in the backtest.
+The `ExternalData.CsvUrl` allows users to bring their data and use it in the backtest.
 The CSV file columns will be available as variables in the backtest throughout the execution.
 
 Requirements:
@@ -990,7 +994,7 @@ SimSettings definition:
 Margin field controls the margin calculation used during the simulation.
 
 The Reg-T margin model enables the calculation and capturing of the margin requirement of complex options positions 
-based on CBOE's Margin Manual. The margin requirement for each position is calculated in every simulation step and 
+based on [CBOE's Margin Manual](https://cdn.cboe.com/resources/membership/Margin_Manual.pdf). The margin requirement for each position is calculated in every simulation step and 
 made accessible to the user through the `pos_margin` variable. The sum of all position margins is used to calculate 
 the account margin, which is provided by the `acc_margin` variable.
 
