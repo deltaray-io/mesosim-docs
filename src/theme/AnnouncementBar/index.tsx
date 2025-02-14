@@ -33,7 +33,7 @@ export default function AnnouncementBarWrapper(props: Props): JSX.Element {
           rel="noopener noreferrer"
           style={{ color: '#2563eb', textDecoration: 'underline' }}
         >
-          full Docs here
+          Full Docs here
         </a>
         .
         <button
