@@ -26,7 +26,7 @@ export default function AnnouncementBarWrapper(props: Props): JSX.Element {
           zIndex: 1,
         }}
       >
-        📄 This is the Job Definition Reference from the documentation. Check out the{' '}
+        📄 This is the Job Definition Reference. Check out the{' '}
         <a
           href="https://docs.mesosim.io/"
           target="_blank" 
