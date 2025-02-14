@@ -377,14 +377,7 @@ Each leg has its unique `Name`, associated expiration (`ExpirationName`), option
 ```
 
 - **Name**: <br/>The unique name of the leg. Later, this name will be used when adjustments are made to the structure. Additionally, it makes job inspection and debugging easier.
-- **Qty**: <br/>Defines the number of contracts to be traded. If negative, a short position is taken. 
-
-:::note[Crypto note]
-
-In case of Equity Index Options whole numbers are allowed, while in case of Crypto Options fractional shares (such as 0.2) can be specified.
-
-:::
-
+- **Qty**: <br/>Defines the number of contracts to be traded. If negative, a short position is taken. Crypto note: In case of Equity Index Options whole numbers are allowed, while in case of Crypto Options fractional shares (such as 0.2) can be specified.
 - **ExpirationName**: <br/>Reference back to the expiration defined in the `Expirations` section.
 - **OptionType**: <br/>Defines the option type to be traded. Either `Put` or `Call`.
 - **StrikeSelector**: <br/>Defines how strikes should be selected for the given leg. Currently, strikes can be selected based on type, greeks, IV, or using Statement selector. Given that we must end up selecting exactly one strike for a leg, this section must define exactly one selector.
